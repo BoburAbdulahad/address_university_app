@@ -8,4 +8,5 @@ import uz.bob.address_university_app.entity.university.University;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject,Integer> {
 
+    boolean existsByName(String name);
 }
