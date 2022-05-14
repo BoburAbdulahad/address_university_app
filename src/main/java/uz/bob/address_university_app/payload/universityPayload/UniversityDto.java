@@ -6,7 +6,8 @@ import lombok.Data;
 public class UniversityDto {
 
     private String name;
-//    private String street;
-//    private Integer homeNumber;
-    private Integer addressId;
+    private String street;
+    private Integer homeNumber;
+    private Integer districtId;
+//    private Integer addressId;
 }

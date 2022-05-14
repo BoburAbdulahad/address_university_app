@@ -7,5 +7,7 @@ import uz.bob.address_university_app.entity.university.University;
 
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty,Integer> {
+    boolean existsByNameAndUniversityId(String name, Integer university_id);
 
+//    boolean existsByNameEquals(String name);
 }

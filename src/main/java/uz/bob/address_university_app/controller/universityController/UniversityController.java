@@ -30,22 +30,22 @@ public class UniversityController {
 
     @PostMapping
     public String add(@RequestBody UniversityDto universityDto) {
-        University university=new University(null,
-                universityDto.getName(),
-                addressRepository.getById(universityDto.getAddressId())
-        );
-        universityRepository.save(university);
-        return "University saved";
-        //this up code for check
-//        Address address = new Address(null,
-//                universityDto.getStreet(),
-//                universityDto.getHomeNumber(),
-//                districtRepository.getById(universityDto.getDistrictId())
-//                );
-//        Address savedAddress = addressRepository.save(address);
-//        University university=new University(null, universityDto.getName(), savedAddress);
+//        University university=new University(null,
+//                universityDto.getName(),
+//                addressRepository.getById(universityDto.getAddressId())
+//        );
 //        universityRepository.save(university);
 //        return "University saved";
+        //this up code for check
+        Address address = new Address(null,
+                universityDto.getStreet(),
+                universityDto.getHomeNumber(),
+                districtRepository.getById(universityDto.getDistrictId())
+                );
+        Address savedAddress = addressRepository.save(address);
+        University university=new University(null, universityDto.getName(), savedAddress);
+        universityRepository.save(university);
+        return "University saved";
     }
 
     @PutMapping("/{id}")
@@ -54,9 +54,15 @@ public class UniversityController {
         if (!optionalUniversity.isPresent()) {
             return "University not found";
         }
-        University university = optionalUniversity.get();//universitet.setAddress emas
-        university.setName(universityDto.getName());// universitet.getAddress qilib keyin qiymatlar set
-        university.setAddress(addressRepository.getById(id));// qilinishi kerak...
+        University university = optionalUniversity.get();
+        university.setName(universityDto.getName());
+        Address address = university.getAddress();
+        address.setStreet(universityDto.getStreet());
+        address.setHomeNumber(universityDto.getHomeNumber());
+        address.setDistrict(districtRepository.getById(universityDto.getDistrictId()));
+        Address savedAddress = addressRepository.save(address);
+        university.setAddress(savedAddress);
+//        university.setAddress(addressRepository.getById(universityDto.getAddressId()));
         universityRepository.save(university);
         return "University edited";
     }

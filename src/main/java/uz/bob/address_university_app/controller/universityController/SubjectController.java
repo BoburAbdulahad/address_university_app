@@ -40,6 +40,10 @@ public class SubjectController {
         Optional<Subject> optionalSubject = subjectRepository.findById(id);
         if (!optionalSubject.isPresent())
             return "Subject not";
+        boolean existsByName = subjectRepository.existsByName(subject.getName());
+        if (existsByName)
+            return "This name already exist!!!";
+
         Subject subject1 = optionalSubject.get();
         subject1.setName(subject.getName());
         subjectRepository.save(subject1);
@@ -47,6 +51,8 @@ public class SubjectController {
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Integer id){
+        if (!subjectRepository.findById(id).isPresent())
+            return "Subject not found";
         subjectRepository.deleteById(id);
         return "Subject deleted";
     }
