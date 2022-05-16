@@ -10,6 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "groups")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name","faculty_id"}))
 public class Group {
 
     @Id

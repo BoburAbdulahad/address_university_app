@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import uz.bob.address_university_app.entity.university.Faculty;
 import uz.bob.address_university_app.entity.university.University;
 
+import java.util.List;
+
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty,Integer> {
     boolean existsByNameAndUniversityId(String name, Integer university_id);
-
-//    boolean existsByNameEquals(String name);
+    List<Faculty> findAllByUniversityId(Integer university_id);
 }

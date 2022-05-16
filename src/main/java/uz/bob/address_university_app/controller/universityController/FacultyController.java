@@ -8,6 +8,8 @@ import uz.bob.address_university_app.payload.universityPayload.FacultyDto;
 import uz.bob.address_university_app.repository.universityRepository.FacultyRepository;
 import uz.bob.address_university_app.repository.universityRepository.UniversityRepository;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +21,25 @@ public class FacultyController {
     @Autowired
     UniversityRepository universityRepository;
 
+    // for Ministry: get all faculties
     @GetMapping
     public List<Faculty>get(){
         return facultyRepository.findAll();
     }
+
+    //for university employee: get all faculties only by university_id
+    @GetMapping("/byUniversityId/{universityId}")
+    public List<Faculty> getFacultiesByUniversityId(@PathVariable Integer universityId){
+        List<Faculty> allByUniversityId = facultyRepository.findAllByUniversityId(universityId);
+//        Iterable<Faculty> iterable=() ->
+//        Iterator<Faculty> iterator=facultyRepository.findAllById()
+//        iterator.next()//   search in you tube
+//        Faculty faculty = iterator.next();
+//        facultyRepository.findAllById(() -> )
+        return allByUniversityId;
+    }
+
+    //CREATE
     @PostMapping
     public String add(@RequestBody FacultyDto facultyDto){
         boolean exists = facultyRepository.existsByNameAndUniversityId(facultyDto.getName(), facultyDto.getUniversityId());
