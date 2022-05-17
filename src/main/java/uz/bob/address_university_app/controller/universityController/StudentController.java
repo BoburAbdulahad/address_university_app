@@ -18,10 +18,40 @@ public class StudentController {
     @Autowired
     GroupRepository groupRepository;
 
+    // for ministry
     @GetMapping
     public List<Student>get(){
         return studentRepository.findAll();
     }
+//     for university employee
+    @GetMapping("/byUniversityId/{universityId}")
+    public List<Student> getStudentByUniversityId(@PathVariable Integer universityId){
+        List<Student> studentByUniversityIdNative = studentRepository.getStudentByUniversityIdNative(universityId);
+        List<Student> studentByUniversityId = studentRepository.getStudentByUniversityId(universityId);
+        List<Student> allByGroup_faculty_universityId = studentRepository.findAllByGroup_Faculty_UniversityId(universityId);
+        return studentByUniversityIdNative;
+    }
+    //for university employee - university id and faculty id
+    @GetMapping("/byUniversityAndFacultyId/{universityId}/{facultyId}")
+    public List<Student>getStudentByUniversityIdAndFacultyId(@PathVariable Integer universityId,@PathVariable Integer facultyId){
+        List<Student> studentByUniversityIdAndFacultyId = studentRepository.getStudentByUniversityIdAndFacultyId(universityId, facultyId);
+        return studentByUniversityIdAndFacultyId;
+    }
+    @GetMapping("/jpaNew/{facultyId}")
+    public List<Student>getStudentByFaculty(@PathVariable Integer facultyId){
+        List<Student> allByGroup_facultyId = studentRepository.findAllByGroup_FacultyId(facultyId);
+        List<Student> studentByFacultyId = studentRepository.getStudentByFacultyId(facultyId);
+        List<Student>getList=studentRepository.getStudentByFacultyIdNative(facultyId);
+        return studentByFacultyId;
+    }
+
+
+
+
+
+
+
+    // get student by id
     @GetMapping("/{id}")
     public Student getById(@PathVariable Integer id){
         if (!studentRepository.findById(id).isPresent()) {

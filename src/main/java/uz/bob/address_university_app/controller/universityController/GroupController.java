@@ -29,7 +29,9 @@ public class GroupController {
     @GetMapping("/byUniversityId/{universityId}")
     public List<Group> getGroupsByUniversityId(@PathVariable Integer universityId){
         List<Group> groupList = groupRepository.findAllByFaculty_UniversityId(universityId);
-        return groupList;
+        List<Group> groupsByUniversityId = groupRepository.getGroupsByUniversityId(universityId);
+        List<Group> groupsByUniversityIdNative = groupRepository.getGroupsByUniversityIdNative(universityId);
+        return groupsByUniversityId;
     }
 
     //fakultet id si orqali groups larni chaqirish
