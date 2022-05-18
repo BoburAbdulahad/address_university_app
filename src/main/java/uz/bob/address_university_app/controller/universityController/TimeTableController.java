@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("timeTable")
+@RequestMapping("/timeTable")
 public class TimeTableController {
 
     @Autowired
@@ -49,27 +49,25 @@ public class TimeTableController {
         timeTableRepository.save(timeTable);
         return "TimeTable saved";
     }
-    @PutMapping("/{id}")
+    @PutMapping("/{id}")//todo tahrirlayotganda va qoshayotganda group id ga unique constraint qoyilgan ekan
     public String edit(@PathVariable Integer id,@RequestBody TimeTableDto timeTableDto){
         if (!timeTableRepository.findById(id).isPresent()) {
             return "TimeTable not found";
         }
-        TimeTable timeTable = timeTableRepository.getById(id);// TODO: 5/7/2022 check this row with debug
+        TimeTable timeTable = timeTableRepository.getById(id);
+
         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("HH:mm");
         LocalTime startTime=LocalTime.parse(timeTableDto.getStartTime(),formatter);
-// TODO: 5/7/2022 this method should write timetable.setGroup,setSubject,setDayName() ...
 
-        timeTable=new TimeTable(
-                null,
-                timeTableDto.getDayName(),
-                startTime,
-                startTime.plusMinutes(45),
-                groupRepository.getById(timeTableDto.getGroupId()),
-                subjectRepository.getById(timeTableDto.getSubjectId()),
-                teacherRepository.getById(timeTableDto.getTeacherId())
-        );
+        timeTable.setDayName(timeTableDto.getDayName());
+        timeTable.setStartTime(startTime);
+        timeTable.setEndTime(startTime.plusMinutes(45));
+        timeTable.setGroup(groupRepository.getById(timeTableDto.getGroupId()));
+        timeTable.setSubject(subjectRepository.getById(timeTableDto.getSubjectId()));
+        timeTable.setTeacher(teacherRepository.getById(timeTableDto.getTeacherId()));
+
         timeTableRepository.save(timeTable);
-        return "TimeTable saved";
+        return "Time table edited";
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Integer id){

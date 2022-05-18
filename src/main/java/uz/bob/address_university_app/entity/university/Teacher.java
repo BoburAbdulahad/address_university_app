@@ -10,7 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity // TODO: 5/18/2022 set unique constraint to teacher table for name and subjects ids
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"fullName",""}))
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

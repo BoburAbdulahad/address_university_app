@@ -6,7 +6,6 @@ import lombok.Data;
 public class TimeTableDto {
     private String dayName;
     private String startTime;
-    private String endTime;
     private Integer groupId;
     private Integer subjectId;
     private Integer teacherId;

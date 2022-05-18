@@ -8,5 +8,4 @@ import java.util.List;
 public class TeacherDto {
     private String fullName;
     private List<Integer> subjectsIds;
-
 }

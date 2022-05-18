@@ -34,4 +34,13 @@ public class TimeTable {
 
     @OneToOne(optional = false)
     private Teacher teacher;
+
+    public TimeTable(String dayName, LocalTime startTime, LocalTime endTime, Group group, Subject subject, Teacher teacher) {
+        this.dayName = dayName;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.group = group;
+        this.subject = subject;
+        this.teacher = teacher;
+    }
 }

@@ -23,6 +23,7 @@ public class StudentController {
     public List<Student>get(){
         return studentRepository.findAll();
     }
+
 //     for university employee
     @GetMapping("/byUniversityId/{universityId}")
     public List<Student> getStudentByUniversityId(@PathVariable Integer universityId){
@@ -31,20 +32,37 @@ public class StudentController {
         List<Student> allByGroup_faculty_universityId = studentRepository.findAllByGroup_Faculty_UniversityId(universityId);
         return studentByUniversityIdNative;
     }
+
     //for university employee - university id and faculty id
     @GetMapping("/byUniversityAndFacultyId/{universityId}/{facultyId}")
     public List<Student>getStudentByUniversityIdAndFacultyId(@PathVariable Integer universityId,@PathVariable Integer facultyId){
         List<Student> studentByUniversityIdAndFacultyId = studentRepository.getStudentByUniversityIdAndFacultyId(universityId, facultyId);
         return studentByUniversityIdAndFacultyId;
-    }
+
+
+    }//for rectorate employee -get student by faculty id
     @GetMapping("/jpaNew/{facultyId}")
-    public List<Student>getStudentByFaculty(@PathVariable Integer facultyId){
+    public List<Student>getStudentByFacultyId(@PathVariable Integer facultyId){
         List<Student> allByGroup_facultyId = studentRepository.findAllByGroup_FacultyId(facultyId);
         List<Student> studentByFacultyId = studentRepository.getStudentByFacultyId(facultyId);
         List<Student>getList=studentRepository.getStudentByFacultyIdNative(facultyId);
         return studentByFacultyId;
     }
+    //for decanat employee -get student by group id
+    @GetMapping("/byGroupId/{groupId}")
+    public List<Student> getStudentByGroupId(@PathVariable Integer groupId){
+        List<Student> allByGroup_id = studentRepository.findAllByGroup_Id(groupId);
+        List<Student> studentByGroupId = studentRepository.getStudentByGroupId(groupId);
+        List<Student> studentListNative=studentRepository.getStudentByNative(groupId);
+        return allByGroup_id;
+    }
 
+    //get student by university id and facultyId and group id
+    @GetMapping("/threeId/{uId}/{fId}/{gId}")
+    public List<Student>getStudentByThreeId(@PathVariable Integer uId,@PathVariable Integer fId,@PathVariable Integer gId){
+        List<Student> list = studentRepository.getStudentByUniversityIdAndFacultyIdAndGroupId(uId, fId, gId);
+        return list;
+    }
 
 
 

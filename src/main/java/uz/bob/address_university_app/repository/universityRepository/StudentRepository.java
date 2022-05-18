@@ -43,8 +43,23 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
             "where f.id=:facultyId",nativeQuery = true)
     List<Student>getStudentByFacultyIdNative(Integer facultyId);
 //  ===========================================================
-    // TODO: 5/17/2022 get students by group id write 3 query
+    // get student by group id
+
+    List<Student>findAllByGroup_Id(Integer group_id);
+
+    @Query(value = "select st from Student st where st.group.id=:grId")
+    List<Student>getStudentByGroupId(Integer grId);
+
+    @Query(value = "select * from Student s join groups g on g.id=s.group_id where g.id=:gId",nativeQuery = true)
+    List<Student>getStudentByNative(Integer gId);
 
 
-    // TODO: 5/17/2022 get students by university id and faculty id and group id write native query
+    //  get students by university id and faculty id and group id write native query
+
+    @Query(value = "select * from(select * from (select * from student s join groups g " +
+            "on g.id=s.group_id join faculty f on f.id=g.faculty_id " +
+            "join university u on u.id=f.university_id where u.id=:universityId)" +
+            "as foo where faculty_id=:facultyId) as foo where group_id=:groupId",nativeQuery = true)
+    List<Student>getStudentByUniversityIdAndFacultyIdAndGroupId(Integer universityId,Integer facultyId,Integer groupId);
+
 }

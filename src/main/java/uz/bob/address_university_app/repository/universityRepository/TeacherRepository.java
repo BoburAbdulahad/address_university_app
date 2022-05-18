@@ -7,5 +7,6 @@ import uz.bob.address_university_app.entity.university.University;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher,Integer> {
+//    boolean existsByFullNameAndSubjects
 
 }

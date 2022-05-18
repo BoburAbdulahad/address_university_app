@@ -65,6 +65,14 @@ public class GroupController {
         if (!optionalGroup.isPresent()) {
             return "Group not found";
         }
+        boolean exists = groupRepository.existsByNameAndFaculty_Id(groupDto.getName(), groupDto.getFacultyId());
+        if (exists)
+            return "Don't be editing ,because this name and this faculty_id to have in database!";
+
+        if (!facultyRepository.findById(groupDto.getFacultyId()).isPresent())
+            return "Faculty not found";
+
+
         Group group = optionalGroup.get();
         group.setName(groupDto.getName());
 
