@@ -49,6 +49,9 @@ public class TeacherController {
         subjectList.clear();
         return "Teacher saved";
     }
+
+    // TODO: 5/19/2022 teacher classida turib, teacher va subjectId ga birgalikda unique constraint qoyishni organish kk
+    //teacher classida qoyib bolmadi sababi teacher table da subjectId yoq, subjectId esa teacher_subject table da
     @PutMapping("/{id}")
     public String edit(@PathVariable Integer id,@RequestBody TeacherDto teacherDto){
         subjectList.clear();

@@ -1,6 +1,10 @@
 package uz.bob.address_university_app.controller.universityController;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import uz.bob.address_university_app.entity.university.Student;
 import uz.bob.address_university_app.payload.universityPayload.StudentDto;
@@ -19,15 +23,17 @@ public class StudentController {
     GroupRepository groupRepository;
 
     // for ministry
-    @GetMapping
-    public List<Student>get(){
-        return studentRepository.findAll();
+    @GetMapping()
+    public Page<Student> get(@RequestParam int page,@RequestParam int size){
+        Pageable pageable= PageRequest.of(page, size);
+        return studentRepository.findAll(pageable);
     }
 
 //     for university employee
     @GetMapping("/byUniversityId/{universityId}")
-    public List<Student> getStudentByUniversityId(@PathVariable Integer universityId){
-        List<Student> studentByUniversityIdNative = studentRepository.getStudentByUniversityIdNative(universityId);
+    public Page<Student> getStudentByUniversityId(@PathVariable Integer universityId,@RequestParam int page,@RequestParam int size){
+        Pageable pageable=PageRequest.of(page, size);
+        Page<Student> studentByUniversityIdNative = studentRepository.getStudentByUniversityIdNative(universityId,pageable);
         List<Student> studentByUniversityId = studentRepository.getStudentByUniversityId(universityId);
         List<Student> allByGroup_faculty_universityId = studentRepository.findAllByGroup_Faculty_UniversityId(universityId);
         return studentByUniversityIdNative;
@@ -41,10 +47,11 @@ public class StudentController {
 
 
     }//for rectorate employee -get student by faculty id
-    @GetMapping("/jpaNew/{facultyId}")
-    public List<Student>getStudentByFacultyId(@PathVariable Integer facultyId){
+    @GetMapping("/jpaNew/{facultyId}/{page}/{size}")
+    public Page<Student>getStudentByFacultyId(@PathVariable Integer facultyId, @PathVariable Integer page, @PathVariable Integer size){
+        Pageable pageable=PageRequest.of(page,size);
         List<Student> allByGroup_facultyId = studentRepository.findAllByGroup_FacultyId(facultyId);
-        List<Student> studentByFacultyId = studentRepository.getStudentByFacultyId(facultyId);
+        Page<Student> studentByFacultyId = studentRepository.getStudentByFacultyId(facultyId,pageable);
         List<Student>getList=studentRepository.getStudentByFacultyIdNative(facultyId);
         return studentByFacultyId;
     }

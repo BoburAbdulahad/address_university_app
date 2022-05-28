@@ -49,7 +49,7 @@ public class TimeTableController {
         timeTableRepository.save(timeTable);
         return "TimeTable saved";
     }
-    @PutMapping("/{id}")//todo tahrirlayotganda va qoshayotganda group id ga unique constraint qoyilgan ekan
+    @PutMapping("/{id}")//todo- tahrirlayotganda va qoshayotganda group id ga unique constraint qoyilgan ekan
     public String edit(@PathVariable Integer id,@RequestBody TimeTableDto timeTableDto){
         if (!timeTableRepository.findById(id).isPresent()) {
             return "TimeTable not found";
