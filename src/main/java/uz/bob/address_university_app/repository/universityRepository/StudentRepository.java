@@ -45,9 +45,10 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
             "where f.id=:facultyId",nativeQuery = true)
     List<Student>getStudentByFacultyIdNative(Integer facultyId);
 //  ===========================================================
+
     // get student by group id
 
-    List<Student>findAllByGroup_Id(Integer group_id);
+    Page<Student>findAllByGroup_Id(Integer group_id,Pageable pageable);
 
     @Query(value = "select st from Student st where st.group.id=:grId")
     List<Student>getStudentByGroupId(Integer grId);

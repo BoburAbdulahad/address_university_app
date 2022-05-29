@@ -57,8 +57,9 @@ public class StudentController {
     }
     //for decanat employee -get student by group id
     @GetMapping("/byGroupId/{groupId}")
-    public List<Student> getStudentByGroupId(@PathVariable Integer groupId){
-        List<Student> allByGroup_id = studentRepository.findAllByGroup_Id(groupId);
+    public Page<Student> getStudentByGroupId(@PathVariable Integer groupId,@RequestParam Integer page, @RequestParam Integer size){
+        Pageable pageable=PageRequest.of(page,size);
+        Page<Student> allByGroup_id = studentRepository.findAllByGroup_Id(groupId,pageable);
         List<Student> studentByGroupId = studentRepository.getStudentByGroupId(groupId);
         List<Student> studentListNative=studentRepository.getStudentByNative(groupId);
         return allByGroup_id;
